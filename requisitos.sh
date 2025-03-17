@@ -3,7 +3,7 @@ sqlite3 mediciones.db < init.sql
 function agregar_paciente {
     read -p "Ingresa el nombre del paciente: " nombre
     read -p "Ingresa la edad del paciente: " edad
-    sqlite3 eeg.db "INSERT INTO Pacientes (nombre, edad) VALUES ('$nombre', $edad);"
+    sqlite3 mediciones.db "INSERT INTO Pacientes (nombre, edad) VALUES ('$nombre', $edad);"
     echo "Paciente agregado."
 }
 
@@ -16,25 +16,25 @@ function agregar_medicion {
     read -p "Ingresa el valor de gamma: " gamma
     read -p "Ingresa el valor de amplitud: " amplitud
     read -p "Ingresa notas adicionales (opcional): " notas
-    sqlite3 eeg.db "INSERT INTO MedicionesEEG (paciente_id, delta, theta, alpha, beta, gamma, amplitud, notas_adicionales) VALUES ($paciente_id, $delta, $theta, $alpha, $beta, $gamma, $amplitud, '$notas');"
+    sqlite3 mediciones.db "INSERT INTO Mediciones (paciente_id, delta, theta, alpha, beta, gamma, amplitud, notas_adicionales) VALUES ($paciente_id, $delta, $theta, $alpha, $beta, $gamma, $amplitud, '$notas');"
     echo "Medición agregada."
 }
 
 function obtener_mediciones_frecuencia {
     read -p "Ingresa el ID del paciente: " paciente_id
     read -p "Ingresa la frecuencia (delta, theta, alpha, beta, gamma): " frecuencia
-    sqlite3 eeg.db "SELECT * FROM MedicionesEEG WHERE paciente_id = $paciente_id AND $frecuencia IS NOT NULL;"
+    sqlite3 mediciones.db "SELECT * FROM Mediciones WHERE paciente_id = $paciente_id AND $frecuencia IS NOT NULL;"
 }
 
 function obtener_mediciones_amplitud {
     read -p "Ingresa el ID del paciente: " paciente_id
     read -p "Ingresa el valor de amplitud: " amplitud
-    sqlite3 eeg.db "SELECT * FROM MedicionesEEG WHERE paciente_id = $paciente_id AND amplitud = $amplitud;"
+    sqlite3 mediciones.db "SELECT * FROM Mediciones WHERE paciente_id = $paciente_id AND amplitud = $amplitud;"
 }
 
 function eliminar_medicion {
     read -p "Ingresa el ID de la medición a eliminar: " id
-    sqlite3 eeg.db "DELETE FROM MedicionesEEG WHERE id = $id;"
+    sqlite3 mediciones.db "DELETE FROM Mediciones WHERE id = $id;"
     echo "Medición eliminada."
 }
 
